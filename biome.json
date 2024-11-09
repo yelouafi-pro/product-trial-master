@@ -1,0 +1,29 @@
+{
+  "$schema": "./front/node_modules/@biomejs/biome/configuration_schema.json",
+  "organizeImports": {
+    "enabled": false
+  },
+  "linter": {
+    "enabled": true,
+    "ignore": ["unused/*.js"],
+    "rules": {
+      "recommended": true,
+      "style": {
+        "useImportType": "off",
+        "useNodejsImportProtocol": "off"
+      }
+    }
+  },
+  "formatter": {
+    "ignore": ["dist/*.js"],
+    "indentStyle": "space"
+  },
+  "javascript": {
+    "formatter": {
+      "semicolons": "always"
+    }
+  },
+  "files": {
+    "include": ["**/*.js", "**/*.ts", "**/*.json"]
+  }
+}
