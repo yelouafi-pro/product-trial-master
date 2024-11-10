@@ -9,8 +9,8 @@ import { CardModule } from "primeng/card";
 import { DataViewModule } from 'primeng/dataview';
 import { DialogModule } from 'primeng/dialog';
 import { PaginatorModule } from 'primeng/paginator';
-import { MessagesModule } from 'primeng/messages';
 import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 const emptyProduct: Product = {
   id: 0,
@@ -34,7 +34,7 @@ const emptyProduct: Product = {
   templateUrl: "./product-list.component.html",
   styleUrls: ["./product-list.component.scss"],
   standalone: true,
-  imports: [DataViewModule, CardModule, ButtonModule, DialogModule, ProductFormComponent, CommonModule, PaginatorModule, MessagesModule],
+  imports: [DataViewModule, CardModule, ButtonModule, DialogModule, ProductFormComponent, CommonModule, PaginatorModule, ToastModule],
 })
 export class ProductListComponent implements OnInit {
 
@@ -90,6 +90,7 @@ export class ProductListComponent implements OnInit {
   public onDelete(product: Product) {
     this.productsService.delete(product.id).subscribe(() => {
       this.loadProducts();
+      this.showMessage('Produit supprimé avec succès !', 'success', 'Succès')
     });
   }
 
@@ -97,10 +98,12 @@ export class ProductListComponent implements OnInit {
     if (this.isCreation) {
       this.productsService.create(product).subscribe(() => {
         this.loadProducts();
+        this.showMessage('Produit créé avec succès', 'success', 'Succès')
       });
     } else {
       this.productsService.update(product).subscribe(() => {
         this.loadProducts();
+        this.showMessage('Produit mis à jour avec succès', 'success', 'Succès')
       });
     }
     this.closeDialog();
@@ -124,9 +127,20 @@ export class ProductListComponent implements OnInit {
   }
 
   showQuantityDialog(product: Product): void {
-    this.selectedProduct = product;
-    this.desiredQuantity = 1;
-    this.isDialogQuantity = true;
+    console.log(JSON.stringify(product))
+    if (product.inventoryStatus === 'OUTOFSTOCK') {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Produit indisponible',
+        detail: 'Ce produit est en rupture de stock et ne peut pas être ajouté au panier.',
+        life: 3000
+      });
+    } else {
+      this.selectedProduct = product;
+      this.desiredQuantity = 1;
+      this.isDialogQuantity = true;
+    }
+    
   }
 
   cancelQuantityDialog(): void {
@@ -134,6 +148,17 @@ export class ProductListComponent implements OnInit {
     this.selectedProduct = null;
   }
 
+  private showMessage(detail: string, status:string, summary:string) {
+    this.messageService.add({
+      severity: status, 
+      summary: summary, 
+      detail: detail,
+      life: 3000 
+    });
+  }
+  show() {
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
+}
 
   addToCartWithQuantity(): void {
     if (this.selectedProduct) {
@@ -143,12 +168,7 @@ export class ProductListComponent implements OnInit {
         this.isDialogQuantity = false;
         this.selectedProduct = null;
       } else {
-        this.messageService.add({
-          severity: 'warn', 
-          summary: 'Warning', 
-          detail: 'Cannot exceed stock quantity!',
-          life: 3000 
-        });
+        this.showMessage('Quantité en stock dépassée !', 'warn', 'Warning')
       }
     }
   }
@@ -163,6 +183,4 @@ export class ProductListComponent implements OnInit {
       return matchesCategory && matchesName && matchesMinPrice && matchesMaxPrice;
     });
   }
-
-
 }

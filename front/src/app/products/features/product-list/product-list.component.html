@@ -18,6 +18,8 @@
   <input type="number" id="priceMax" [(ngModel)]="priceMax" (input)="applyFilters()" placeholder="Max" style="width: 80px;" />
 </div>
 
+<p-toast />
+
 <p-dataView #dv [value]="filteredProducts" [paginator]="true" [rows]="rows" [first]="first" [totalRecords]="filteredProducts.length" (onPage)="onPageChange($event)">
   <ng-template pTemplate="list" let-products>
     <ng-container *ngFor="let product of products">
