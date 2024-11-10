@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { CartItem } from 'app/shared/data-access/cart.model';
 import { CartService } from 'app/shared/services/cart.service';
-import { MessagesModule } from 'primeng/messages';
+import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, MessagesModule],
+  imports: [CommonModule, ToastModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
@@ -41,7 +41,7 @@ export class CartComponent implements OnInit {
         this.messageService.add({
           severity: 'warn', 
           summary: 'Warning', 
-          detail: 'Cannot exceed stock quantity!',
+          detail: 'Vous ne pouvez pas dépasser la quantité en stock !',
           life: 3000 
         });
       }
@@ -57,7 +57,7 @@ export class CartComponent implements OnInit {
       this.messageService.add({
         severity: 'warn', 
         summary: 'Warning', 
-        detail: 'You cannot decrease the quantity below 1.',
+        detail: 'Vous ne pouvez pas réduire la quantité en dessous de 1',
         life: 3000 
       });
     }
