@@ -3,3 +3,32 @@
     height: 100%;
     overflow: auto;
 }
+
+/* Style for the product price */
+.product-price {
+    color: #0b9d2d; /* Bold red/orange color */
+    font-weight: bold;
+  }
+  
+  /* Styling for the product rating stars */
+  .rating {
+    display: flex;
+    align-items: center;
+  }
+  
+  .rating .pi-star {
+    color: #FFD700; /* Gold color for the stars */
+    margin-right: 2px;
+  }
+  
+  .rating .rating-text {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #6c757d;
+  }
+  
+  /* Styling for the buttons in the footer */
+  .p-button {
+    min-width: 120px; /* To ensure buttons are consistent in size */
+  }
+  

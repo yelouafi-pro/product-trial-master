@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "7b276318-9d79-4fdb-9855-de08d092a9d1",
+		"name": "altenshop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19066966",
+		"_collection_link": "https://warped-station-197781.postman.co/workspace/New-Team-Workspace~a528a4d3-1d02-4a61-ba8a-e790a0617132/collection/19066966-7b276318-9d79-4fdb-9855-de08d092a9d1?action=share&source=collection_link&creator=19066966"
+	},
+	"item": [
+		{
+			"name": "save",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\"id\": 1017,\r\n\t\t\"code\": \"v435nn85n\",\r\n\t\t\"name\": \"Mini Speakers\",\r\n\t\t\"description\": \"Product Description\",\r\n\t\t\"image\": \"mini-speakers.jpg\",\r\n\t\t\"price\": 85,\r\n\t\t\"category\": \"Clothing\",\r\n\t\t\"createdAt\": 1718114215761,\r\n\t\t\"updatedAt\": 1718114215761,\r\n\t\t\"shellId\": 15,\r\n\t\t\"internalReference\": \"REF-123-456\",\r\n\t\t\"inventoryStatus\": \"INSTOCK\",\r\n\t\t\"rating\": 4\r\n\t}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch/:id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"code\": \"P123\",\r\n  \"name\": \"Product Name\",\r\n  \"description\": \"Product Description\",\r\n  \"image\": \"image_url\",\r\n  \"category\": \"Category Name\",\r\n  \"price\": 65.0,\r\n  \"quantity\": 15,\r\n  \"internalReference\": \"ABC123\",\r\n  \"shellId\": 1,\r\n  \"inventoryStatus\": \"INSTOCK\",\r\n  \"rating\": 5,\r\n  \"createdAt\": 1718114215761,\r\n  \"updatedAt\": 1718114215761\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get/:id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAll",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete/:id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

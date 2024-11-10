@@ -47,12 +47,21 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
         </textarea>
       </div>      
       <div class="form-field">
-        <label for="description">Catégorie</label>
+        <label for="category">Catégorie</label>
         <p-dropdown 
           [options]="categories" 
           [(ngModel)]="editedProduct().category" 
           name="category"
           appendTo="body"
+        />
+      </div>
+      <div class="form-field">
+        <label for="quantity">Quantité</label>
+        <p-inputNumber 
+          [(ngModel)]="editedProduct().quantity" 
+          name="quantity"
+          [min]="1" 
+          required
         />
       </div>
       <div class="flex justify-content-between">
