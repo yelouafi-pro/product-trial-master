@@ -71,7 +71,7 @@ public class ProductService {
         if (optionalProduct.isPresent()) {
             Product product = ProductMapper.INSTANCE.toEntity(productDTO);
             product.setId(id);
-            product = productRepository.save(ProductMapper.INSTANCE.toEntity(productDTO));
+            product = productRepository.save(product);
             return ProductMapper.INSTANCE.toDTO(product);
         } else {
             throw new ProductNotFoundException("Product not found");

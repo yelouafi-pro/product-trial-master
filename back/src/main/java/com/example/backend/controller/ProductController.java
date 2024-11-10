@@ -5,6 +5,7 @@ import com.example.backend.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
  * Author: Youssef Elouafi
  */
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/products")
 public class ProductController {
 
@@ -35,7 +37,7 @@ public class ProductController {
             @ApiResponse(responseCode = "201", description = "Product created or updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input provided")
     })
-    public ResponseEntity<ProductDTO> saveProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductDTO> saveProduct(@RequestBody @Valid ProductDTO productDTO) {
         ProductDTO savedProductDTO = productService.saveProduct(productDTO);
         return new ResponseEntity<>(savedProductDTO, HttpStatus.CREATED);
     }
@@ -86,7 +88,7 @@ public class ProductController {
     })
     public ResponseEntity<ProductDTO> updateProduct(
             @PathVariable Long id,
-            @RequestBody ProductDTO productDTO) {
+            @RequestBody @Valid ProductDTO productDTO) {
         ProductDTO updatedProductDTO = productService.updateProduct(id, productDTO);
         return new ResponseEntity<>(updatedProductDTO, HttpStatus.OK);
     }

@@ -1,0 +1,24 @@
+<h1 class="text-center">Mon Panier</h1>
+
+<div class="cart-container">
+    <div *ngFor="let item of cartItems" class="cart-item-card">
+        <div class="cart-item-details">
+            <p class="product-name">{{ item.product.name }} - 
+                <button class="quantity-button" (click)="decreaseQuantity(item.product.id)">-</button>
+                {{ item.quantity }}
+                <button class="quantity-button" (click)="increaseQuantity(item.product.id)">+</button> 
+                x {{ item.product.price | currency:'EUR' }}
+            </p>
+        </div>
+        <button class="remove-button" (click)="removeFromCart(item.product.id)">
+            <i class="pi pi-trash"></i> Supprimer
+        </button>
+    </div>
+
+    <div class="total">
+        <p><strong>Total: </strong>{{ totalPrice | currency:'EUR' }}</p>
+    </div>
+
+    <p-messages></p-messages>
+    
+</div>

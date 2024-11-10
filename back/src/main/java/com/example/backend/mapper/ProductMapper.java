@@ -8,6 +8,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 /**
@@ -20,18 +23,48 @@ public interface ProductMapper {
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
     @Mapping(target = "inventoryStatus", source = "inventoryStatus", qualifiedByName = "inventoryStatusToString")
+    @Mapping(target = "createdAt", source = "createdAt", qualifiedByName = "mapLocalDateTimeToTimestamp")
+    @Mapping(target = "updatedAt", source = "updatedAt", qualifiedByName = "mapLocalDateTimeToTimestamp")
     ProductDTO toDTO(Product product);
 
     @Mapping(target = "inventoryStatus", source = "inventoryStatus", defaultExpression = "java(InventoryStatus.valueOf(productDTO.inventoryStatus()))")
+    @Mapping(target = "createdAt", source = "createdAt", qualifiedByName = "mapTimestampToLocalDateTime")
+    @Mapping(target = "updatedAt", source = "updatedAt", qualifiedByName = "mapTimestampToLocalDateTime")
     Product toEntity(ProductDTO productDTO);
 
+    /**
+     * Converts an InventoryStatus enum to its string representation.
+     *
+     * @param inventoryStatus the inventory status enum value.
+     * @return the name of the inventory status as a string, or null if inventoryStatus is null.
+     */
     @Named("inventoryStatusToString")
     default String inventoryStatusToString(InventoryStatus inventoryStatus) {
-        if (inventoryStatus != null) {
-            return inventoryStatus.name();
-        }
-        return null;
+        return (inventoryStatus != null) ? inventoryStatus.name() : null;
     }
+
+    /**
+     * Converts a timestamp in milliseconds to LocalDateTime.
+     *
+     * @param timestamp the timestamp in milliseconds.
+     * @return the LocalDateTime representation of the timestamp, or null if timestamp is null.
+     */
+    @Named("mapTimestampToLocalDateTime")
+    default LocalDateTime mapTimestampToLocalDateTime(Long timestamp) {
+        return (timestamp != null) ? LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneOffset.UTC) : null;
+    }
+
+    /**
+     * Converts a LocalDateTime to a timestamp in milliseconds.
+     *
+     * @param localDateTime the LocalDateTime to be converted.
+     * @return the timestamp in milliseconds, or null if localDateTime is null.
+     */
+    @Named("mapLocalDateTimeToTimestamp")
+    default Long mapLocalDateTimeToTimestamp(LocalDateTime localDateTime) {
+        return (localDateTime != null) ? localDateTime.toInstant(ZoneOffset.UTC).toEpochMilli() : null;
+    }
+
 
     /**
      * Converts a list of Product entities to a list of ProductDTOs.
