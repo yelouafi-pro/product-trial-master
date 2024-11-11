@@ -6,6 +6,7 @@ import com.example.backend.exception.ProductNotFoundException;
 import com.example.backend.mapper.ProductMapper;
 import com.example.backend.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class ProductService {
      * @return a list of products as DTOs.
      */
     public List<ProductDTO> getAllProducts() {
-        List<Product> products = productRepository.findAll();
+        List<Product> products = productRepository.findAll(Sort.by(Sort.Order.desc("id")));
         return ProductMapper.INSTANCE.toDTOs(products);
     }
 
