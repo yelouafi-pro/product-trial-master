@@ -20,6 +20,15 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
   template: `
     <form #form="ngForm" (ngSubmit)="onSave()">
       <div class="form-field">
+        <label for="code">Code</label>
+        <input pInputText
+          type="text"
+          id="code"
+          name="code"
+          [(ngModel)]="editedProduct().code"
+          required>
+      </div>
+      <div class="form-field">
         <label for="name">Nom</label>
         <input pInputText
           type="text"

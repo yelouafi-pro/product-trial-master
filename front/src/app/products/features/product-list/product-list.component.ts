@@ -78,7 +78,7 @@ export class ProductListComponent implements OnInit {
   public onCreate() {
     this.isCreation = true;
     this.isDialogVisible = true;
-    this.editedProduct.set(emptyProduct);
+    this.editedProduct.set({ ...emptyProduct }); 
   }
 
   public onUpdate(product: Product) {
@@ -156,9 +156,10 @@ export class ProductListComponent implements OnInit {
       life: 3000 
     });
   }
+  
   show() {
     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
-}
+  }
 
   addToCartWithQuantity(): void {
     if (this.selectedProduct) {

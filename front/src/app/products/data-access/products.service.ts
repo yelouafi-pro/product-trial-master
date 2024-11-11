@@ -3,10 +3,13 @@ import { Product } from "./product.model";
 import { HttpClient } from "@angular/common/http";
 import { catchError, Observable, of, tap } from "rxjs";
 import { environment } from "../../../environments/environment";
+import { MessageService } from "primeng/api";
 
 @Injectable({
     providedIn: "root"
 }) export class ProductsService {
+
+    constructor(private messageService: MessageService) {}
 
     private readonly http = inject(HttpClient);
     private readonly path = `${environment.apiUrl}/api/products`;
@@ -18,7 +21,6 @@ import { environment } from "../../../environments/environment";
     public get(): Observable<Product[]> {
         return this.http.get<Product[]>(this.path).pipe(
             catchError((error) => {
-                console.log(`log error: ${JSON.stringify(error)}`)
                 return this.http.get<Product[]>("assets/products.json");
             }),
             tap((products) => this._products.set(products)),
@@ -27,17 +29,45 @@ import { environment } from "../../../environments/environment";
 
     public create(product: Product): Observable<boolean> {
         return this.http.post<boolean>(this.path, product).pipe(
-            catchError(() => {
-                return of(true);
-            }),
-            tap(() => this._products.update(products => [product, ...products])),
+          catchError((error) => {
+            if (error.error?.message?.includes(`Violation d'index unique`)) {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Erreur',
+                detail: 'Le produit existe déjà. Veuillez entrer un produit unique.',
+              });
+            } else {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Erreur',
+                detail: 'Une erreur est survenue lors de la création du produit.',
+              });
+            }
+            throw error;
+          }),
+          tap(() => {
+            this._products.update((products) => [product, ...products]);
+          })
         );
-    }
+      }
 
     public update(product: Product): Observable<boolean> {
         return this.http.patch<boolean>(`${this.path}/${product.id}`, product).pipe(
-            catchError(() => {
-                return of(true);
+            catchError((error) => {
+                if (error.error?.message?.includes(`Violation d'index unique`)) {
+                    this.messageService.add({
+                      severity: 'error',
+                      summary: 'Erreur',
+                      detail: 'Le produit existe déjà. Veuillez entrer un produit unique.',
+                    });
+                  } else {
+                    this.messageService.add({
+                      severity: 'error',
+                      summary: 'Erreur',
+                      detail: 'Une erreur est survenue lors de la création du produit.',
+                    });
+                  }
+                  throw error;
             }),
             tap(() => this._products.update(products => {
                 return products.map(p => p.id === product.id ? product : p)
